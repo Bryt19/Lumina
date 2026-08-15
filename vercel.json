@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && cd server && npm install",
   "outputDirectory": "dist/agentic-customer-support-assistant-platform/browser",
   "builds": [
     {
@@ -15,10 +15,6 @@
     {
       "src": "/api/(.*)",
       "dest": "server/index.js"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
     },
     {
       "handle": "filesystem"
