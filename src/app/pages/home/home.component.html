@@ -50,8 +50,27 @@
 </section>
 
 <!-- Trust bar -->
-<section class="border-y border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/40">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-semibold text-slate-400 dark:text-slate-500">
+<section class="border-y border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/40 overflow-hidden">
+  <!-- Mobile: scrolling marquee -->
+  <div class="sm:hidden py-4">
+    <div class="marquee-track flex items-center gap-10 text-sm font-semibold text-slate-400 dark:text-slate-500 w-max">
+      <span>TRUSTED BY SUPPORT TEAMS AT</span>
+      <span class="text-slate-500 dark:text-slate-400">Northwind</span>
+      <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
+      <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
+      <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
+      <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
+      <!-- Duplicate for seamless loop -->
+      <span>TRUSTED BY SUPPORT TEAMS AT</span>
+      <span class="text-slate-500 dark:text-slate-400">Northwind</span>
+      <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
+      <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
+      <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
+      <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
+    </div>
+  </div>
+  <!-- Desktop: static row -->
+  <div class="hidden sm:flex max-w-6xl mx-auto px-6 py-6 flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-semibold text-slate-400 dark:text-slate-500">
     <span>TRUSTED BY SUPPORT TEAMS AT</span>
     <span class="text-slate-500 dark:text-slate-400">Northwind</span>
     <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
@@ -60,6 +79,7 @@
     <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
   </div>
 </section>
+
 
 <!-- Features -->
 <section id="features" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24 scroll-mt-20">

@@ -72,7 +72,19 @@ html {
   .animate-fade-in-up,
   .animate-chat-in,
   .animate-fade-in,
-  .animate-float {
+  .animate-float,
+  .marquee-track {
     animation: none;
   }
+}
+
+/* Trust bar marquee (mobile) */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 18s linear infinite;
+  padding-left: 1.5rem;
 }
