@@ -62,7 +62,8 @@
               "buildTarget": "agentic-customer-support-assistant-platform:build:production"
             },
             "development": {
-              "buildTarget": "agentic-customer-support-assistant-platform:build:development"
+              "buildTarget": "agentic-customer-support-assistant-platform:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -92,5 +93,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "73445f70-8c0d-4f56-a515-28bb474cd70a"
   }
 }

@@ -1,0 +1,159 @@
+<!-- Hero -->
+<section class="relative overflow-hidden">
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <!-- Hero background image -->
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/hero-ai-support.png');"></div>
+    <!-- Readability overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-white/85 via-white/60 to-slate-50/95 dark:from-black/85 dark:via-black/60 dark:to-black/95"></div>
+    <!-- Soft centered glow -->
+    <div class="absolute left-1/2 top-0 -translate-x-1/2 w-[44rem] max-w-full h-[24rem] rounded-full bg-slate-500/[0.09] dark:bg-slate-400/[0.06] blur-3xl"></div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28 pb-16 sm:pb-20 text-center">
+    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-white/10 animate-fade-in-up">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      AI agent · Human handoff · 24/7
+    </span>
+
+    <h1 class="mt-6 text-4xl sm:text-6xl font-extrabold font-display tracking-tight leading-[1.1] animate-fade-in-up" style="animation-delay: 0.08s">
+      Customer support that
+      <span class="text-slate-700 dark:text-slate-300">answers instantly</span>
+    </h1>
+
+    <p class="mt-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.16s">
+      Lumina pairs a Gemini-powered agent with your order data, refunds, and policy
+      docs — so every customer gets a fast, accurate answer scoped to their own account.
+    </p>
+
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-3 animate-fade-in-up" style="animation-delay: 0.24s">
+      <button (click)="openChat()" class="px-6 py-3 rounded-full bg-slate-700 hover:bg-slate-600 text-white font-semibold shadow-lg shadow-slate-900/25 hover:shadow-xl hover:scale-[1.02] transition-all">
+        Chat with the assistant
+      </button>
+      <a href="#features" class="px-6 py-3 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
+        Explore features
+      </a>
+    </div>
+
+    <!-- Sample prompts -->
+    <div class="mt-12 animate-fade-in-up" style="animation-delay: 0.32s">
+      <p class="text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">Try asking</p>
+      <div class="mt-4 flex flex-wrap justify-center gap-2.5">
+        <button
+          *ngFor="let prompt of samplePrompts"
+          (click)="openChat(prompt)"
+          class="px-4 py-2 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm text-slate-600 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-500/50 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+        >{{ prompt }}</button>
+      </div>
+      <p class="mt-4 text-xs text-slate-400 dark:text-slate-500">Pick a demo account when the chat opens — no signup needed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Trust bar -->
+<section class="border-y border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/40">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-semibold text-slate-400 dark:text-slate-500">
+    <span>TRUSTED BY SUPPORT TEAMS AT</span>
+    <span class="text-slate-500 dark:text-slate-400">Northwind</span>
+    <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
+    <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
+    <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
+    <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24 scroll-mt-20">
+  <div class="text-center max-w-2xl mx-auto mb-14">
+    <h2 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight">Everything a support desk needs, automated</h2>
+    <p class="mt-4 text-slate-600 dark:text-slate-400">The agent uses real tools against real data — no canned replies, no fake order lookups.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Track orders in real time</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Customers ask in plain language; the agent looks up their order status, ETA, and totals straight from the database.</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.648a1.5 1.5 0 0 1-.641.707l-.242.137a.75.75 0 0 0 .748 1.3l.242-.137c.484-.275.98-.465 1.47-.465a1.17 1.17 0 0 1 .625.15c.087.056.128.11.145.152.035.087.076.225.076.456 0 .23-.04.37-.076.456-.017.043-.058.096-.145.152a1.17 1.17 0 0 1-.625.15H9.375a.75.75 0 0 0 0 1.5h.75v.75a.75.75 0 0 0 1.5 0v-.75h.25a2.625 2.625 0 0 0 .25-5.234V7.5a.75.75 0 0 0-.75-.75h-.75a2.63 2.63 0 0 0-.75.5Zm4.125 8.977h.75a.75.75 0 0 1 0 1.5h-.75a2.625 2.625 0 0 1-2.625-2.625v-.75a.75.75 0 0 1 1.5 0v.75c0 .621.504 1.125 1.125 1.125Z" clip-rule="evenodd" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Refunds with confirmation</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Refunds are never issued blindly — the agent explains the terms, gets explicit confirmation, and only then opens the request.</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Policy answers, grounded</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Shipping, refund, return, and warranty questions are answered from your actual policy text — never made up on the fly.</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 0 0 6 21.75a6.75 6.75 0 0 0 6.75-6.75c0-.383-.032-.757-.093-1.124l2.4 2.4a.75.75 0 0 0 1.06 0l2.25-2.25a.75.75 0 0 0 0-1.06l-2.4-2.4c.367-.06.74-.092 1.123-.092h.007A6.75 6.75 0 0 0 21.75 4.5a.75.75 0 0 0-.75-.75h-.007a6.707 6.707 0 0 0-1.642.196.75.75 0 0 1-.803-.203L16.72 2.366a.75.75 0 0 0-.562-.24H9.842a.75.75 0 0 0-.562.24l-1.828 1.827a.75.75 0 0 1-.802.203A6.707 6.707 0 0 0 5.007 4.5h-.007A.75.75 0 0 0 4.25 5.25v.007c0 .585.063 1.162.196 1.642a.75.75 0 0 1-.203.802L2.416 9.53a.75.75 0 0 0-.24.562v5.096c0 .216.08.423.24.562l1.827 1.828a.75.75 0 0 1 .203.802c.133.48.196 1.057.196 1.642v.007a.75.75 0 0 0 .75.75h.007a6.707 6.707 0 0 0 1.642-.196.75.75 0 0 1 .802.203l1.828 1.827c.139.16.346.24.562.24h5.096c.216 0 .423-.08.562-.24l1.828-1.828a.75.75 0 0 1 .802-.203c.48.133 1.057.196 1.642.196h.007a.75.75 0 0 0 .75-.75v-.007a6.707 6.707 0 0 0-.196-1.642.75.75 0 0 1 .203-.802l1.827-1.828a.75.75 0 0 0 .24-.562V9.53a.75.75 0 0 0-.24-.562l-1.827-1.828a.75.75 0 0 1-.203-.802 6.707 6.707 0 0 0-.196-1.642v-.007a.75.75 0 0 0-.75-.75h-.007Z" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Human escalation</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">When the agent hits its limits, it opens a high-priority ticket and a human picks it up — tracked, not lost.</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75 0 1.684.427 3.27 1.178 4.657l-1.1 3.3a.75.75 0 0 0 .915.915l3.3-1.1a9.705 9.705 0 0 0 4.657 1.178c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM6.75 11.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5h-6Zm0 3a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H6.75Zm9.75-3a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Z" clip-rule="evenodd" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Available 24/7</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Midnight order questions, weekend policy checks — the agent never sleeps and never puts anyone on hold.</p>
+    </div>
+
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" /></svg>
+      </div>
+      <h3 class="font-bold font-display text-lg">Scoped, secure by design</h3>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">The API key lives on the server and every tool call is scoped to the authenticated customer — the agent can't see anyone else's data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="how-it-works" class="border-y border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/40 scroll-mt-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <h2 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight">How it works</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-400">Three steps between a question and a resolved customer.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm mb-4">1</div>
+        <h3 class="font-bold font-display text-lg">Ask in plain language</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">"Where is my order?" or "Can I get a refund?" — no forms, no menus, no waiting.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm mb-4">2</div>
+        <h3 class="font-bold font-display text-lg">The agent takes action</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">It runs real tools against your orders, tickets, and policy — chaining lookups until it has the answer.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm mb-4">3</div>
+        <h3 class="font-bold font-display text-lg">Resolved, or escalated</h3>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Most issues are closed instantly. Anything complex becomes a tracked ticket for a human agent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
+  <div class="rounded-3xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 px-8 py-14 text-center">
+    <h2 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight">See it in action</h2>
+    <p class="mt-4 max-w-xl mx-auto text-slate-600 dark:text-slate-400">Sign in as a demo customer and try an order lookup, a refund request, or an escalation — it's fully wired to the backend.</p>
+    <button (click)="openChat()" class="inline-block mt-8 px-8 py-3.5 rounded-full bg-slate-700 hover:bg-slate-600 text-white font-bold shadow-lg shadow-slate-900/25 hover:shadow-xl hover:scale-[1.03] transition-all">
+      Open the support chat
+    </button>
+  </div>
+</section>

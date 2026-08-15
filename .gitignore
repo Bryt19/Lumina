@@ -21,11 +21,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 .history/*
 
 # Miscellaneous
@@ -40,3 +36,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Server secrets and local data (never commit)
+server/.env
+server/data.db*
+server/node_modules/
+
+# Local environment files
+*.local.ts
