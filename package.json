@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "vercel-build": "ng build && cd server && npm install",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
