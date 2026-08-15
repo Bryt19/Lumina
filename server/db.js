@@ -3,7 +3,10 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data.db');
+// Vercel's serverless filesystem is read-only except /tmp.
+// Use /tmp/data.db in production, local data.db in development.
+const DEFAULT_DB = process.env.VERCEL ? '/tmp/data.db' : path.join(__dirname, 'data.db');
+const DB_PATH = process.env.DB_PATH || DEFAULT_DB;
 
 export const db = new DatabaseSync(DB_PATH);
 
