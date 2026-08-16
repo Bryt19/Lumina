@@ -7,7 +7,9 @@ import {
   findCustomerById,
   addMessage,
   createConversation,
+  deleteConversation,
   getMessages,
+  popLastExchange,
   db,
 } from './db.js';
 
@@ -70,7 +72,7 @@ app.get('/api/me', requireCustomer, (req, res) => {
 // ---- Chat endpoint (SSE) ----------------------------------------------------
 
 app.post('/api/chat', requireCustomer, async (req, res) => {
-  const { message, conversationId } = req.body || {};
+  const { message, conversationId, regenerate } = req.body || {};
   if (!message || typeof message !== 'string' || !message.trim()) {
     return res.status(400).json({ error: 'bad_request', message: 'A non-empty message is required.' });
   }
@@ -80,6 +82,9 @@ app.post('/api/chat', requireCustomer, async (req, res) => {
   if (convId) {
     const conv = db.prepare('SELECT * FROM conversations WHERE id = ? AND customer_id = ?').get(convId, req.customer.id);
     if (!conv) return res.status(404).json({ error: 'not_found', message: 'Conversation not found.' });
+    // Regenerate: drop the trailing [user, assistant] exchange first so the
+    // previous answer isn't replayed into the model's context.
+    if (regenerate) popLastExchange(convId);
   } else {
     convId = createConversation(req.customer.id);
   }
@@ -125,6 +130,20 @@ app.post('/api/chat', requireCustomer, async (req, res) => {
     sse('error', { message });
     res.end();
   }
+});
+
+// ---- Conversation management -------------------------------------------------
+
+// Permanently deletes the caller's conversation (and its messages).
+app.delete('/api/conversations/:id', requireCustomer, (req, res) => {
+  const conv = db
+    .prepare('SELECT id FROM conversations WHERE id = ? AND customer_id = ?')
+    .get(req.params.id, req.customer.id);
+  if (!conv) {
+    return res.status(404).json({ error: 'not_found', message: 'Conversation not found.' });
+  }
+  deleteConversation(conv.id);
+  res.json({ ok: true });
 });
 
 app.get('/api/health', (_req, res) => {

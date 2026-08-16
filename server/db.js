@@ -161,4 +161,30 @@ export function getMessages(conversationId) {
     .all(conversationId);
 }
 
+/** Permanently deletes a conversation and all of its messages. */
+export function deleteConversation(conversationId) {
+  const conv = db.prepare('SELECT id FROM conversations WHERE id = ?').get(conversationId);
+  if (!conv) return false;
+  db.prepare('DELETE FROM messages WHERE conversation_id = ?').run(conversationId);
+  db.prepare('DELETE FROM conversations WHERE id = ?').run(conversationId);
+  return true;
+}
+
+/**
+ * Removes the trailing user+assistant exchange from a conversation, so a
+ * regenerate request can re-answer the last question without the previous
+ * reply polluting the model's context. No-op unless the last two messages
+ * are exactly [user, assistant].
+ */
+export function popLastExchange(conversationId) {
+  const rows = db
+    .prepare('SELECT id, role FROM messages WHERE conversation_id = ? ORDER BY id DESC LIMIT 2')
+    .all(conversationId);
+  if (rows.length < 2) return false;
+  const [latest, previous] = rows; // rows are newest-first
+  if (latest.role !== 'assistant' || previous.role !== 'user') return false;
+  db.prepare('DELETE FROM messages WHERE id IN (?, ?)').run(previous.id, latest.id);
+  return true;
+}
+
 initDb();

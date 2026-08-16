@@ -65,6 +65,29 @@ export class ChatService {
     this.persistSession();
   }
 
+  /** Permanently deletes the current conversation on the server, then resets locally. */
+  async clearConversation(): Promise<void> {
+    let error: Error | null = null;
+    if (this.conversationId) {
+      try {
+        const res = await fetch(`/api/conversations/${this.conversationId}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          error = new Error(body?.message || 'Could not clear the conversation.');
+        }
+      } catch (e) {
+        error = e instanceof Error ? e : new Error('Could not clear the conversation.');
+      }
+    }
+    // Always start fresh locally — even if the server delete failed, the next
+    // message should open a brand-new conversation, not resume the old one.
+    this.resetConversation();
+    if (error) throw error;
+  }
+
   /**
    * Sends a message and streams the assistant reply through onDelta
    * (and tool activity through onTool). Resolves with the final text.
@@ -72,7 +95,8 @@ export class ChatService {
   async sendMessage(
     text: string,
     onDelta: (delta: string) => void,
-    onTool?: (toolName: string) => void
+    onTool?: (toolName: string) => void,
+    regenerate = false
   ): Promise<string> {
     if (!this.token) throw new Error('Not authenticated.');
 
@@ -82,7 +106,7 @@ export class ChatService {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
       },
-      body: JSON.stringify({ message: text, conversationId: this.conversationId }),
+      body: JSON.stringify({ message: text, conversationId: this.conversationId, regenerate }),
     });
 
     if (!res.ok || !res.body) {
