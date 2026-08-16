@@ -27,18 +27,34 @@
           href="#how-it-works"
           class="hidden md:block px-3 py-2 rounded-full text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100 dark:hover:text-white dark:hover:bg-white/10 transition-colors"
         >How it works</a>
+        <a
+          href="#faq"
+          class="hidden lg:block px-3 py-2 rounded-full text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100 dark:hover:text-white dark:hover:bg-white/10 transition-colors"
+        >FAQ</a>
+        <!-- Mobile: iOS-style theme switch -->
         <button
           (click)="toggleTheme()"
-          class="ml-1 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-slate-200 transition-colors"
+          role="switch"
+          [attr.aria-checked]="isDarkMode()"
+          [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+          class="sm:hidden ml-1 relative inline-flex items-center h-7 w-12 p-0.5 rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
+          [ngClass]="isDarkMode() ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-white/20'"
+        >
+          <span
+            class="inline-block w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
+            [ngClass]="isDarkMode() ? 'translate-x-6' : 'translate-x-0'"
+          ></span>
+        </button>
+
+        <!-- Desktop: icon button -->
+        <button
+          (click)="toggleTheme()"
+          class="hidden sm:block ml-1 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-slate-200 transition-colors"
           [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
         >
           <svg *ngIf="!isDarkMode()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" /></svg>
           <svg *ngIf="isDarkMode()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" /></svg>
         </button>
-        <button
-          (click)="openChat()"
-          class="ml-1 px-3.5 sm:px-4 py-2 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold shadow-md shadow-slate-900/25 hover:shadow-lg hover:scale-[1.02] transition-all"
-        >Chat now</button>
       </div>
     </nav>
   </header>
@@ -50,24 +66,75 @@
 
   <!-- Footer -->
   <footer class="border-t border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/60">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-700 text-white">
-          <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path fill-rule="evenodd" d="M12 1.5a.75.75 0 0 1 .75.75v1.5H15a2.25 2.25 0 0 1 2.25 2.25v.75h1.5A3.75 3.75 0 0 1 22.5 10.5v6A3.75 3.75 0 0 1 18.75 20.25H5.25A3.75 3.75 0 0 1 1.5 16.5v-6A3.75 3.75 0 0 1 5.25 6.75h1.5V6A2.25 2.25 0 0 1 9 3.75h2.25V2.25A.75.75 0 0 1 12 1.5ZM6.75 11.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6.75 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM9 15.75a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5H9Z" clip-rule="evenodd" /></svg>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-2.5">
+            <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-700 text-white">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path fill-rule="evenodd" d="M12 1.5a.75.75 0 0 1 .75.75v1.5H15a2.25 2.25 0 0 1 2.25 2.25v.75h1.5A3.75 3.75 0 0 1 22.5 10.5v6A3.75 3.75 0 0 1 18.75 20.25H5.25A3.75 3.75 0 0 1 1.5 16.5v-6A3.75 3.75 0 0 1 5.25 6.75h1.5V6A2.25 2.25 0 0 1 9 3.75h2.25V2.25A.75.75 0 0 1 12 1.5ZM6.75 11.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6.75 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM9 15.75a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5H9Z" clip-rule="evenodd" /></svg>
+            </div>
+            <div class="text-sm">
+              <div class="font-semibold font-display">Lumina Support</div>
+              <div class="text-xs text-slate-400 dark:text-slate-500">Agentic customer support platform</div>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
+            A Gemini-powered support agent that answers order, refund, and policy questions instantly — and hands off to humans when it should.
+          </p>
+          <button (click)="openChat()" class="mt-5 px-4 py-2 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold shadow-md shadow-slate-900/25 hover:shadow-lg transition-all">Try the demo</button>
         </div>
-        <div class="text-sm">
-          <div class="font-semibold font-display">Lumina Support</div>
-          <div class="text-xs text-slate-400 dark:text-slate-500">Agentic customer support platform</div>
+
+        <!-- Product -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Product</h4>
+          <ul class="mt-4 space-y-2.5 text-sm text-slate-500 dark:text-slate-400">
+            <li><a href="#features" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Features</a></li>
+            <li><a href="#how-it-works" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">How it works</a></li>
+            <li><a href="#faq" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Support</h4>
+          <ul class="mt-4 space-y-2.5 text-sm text-slate-500 dark:text-slate-400">
+            <li><button (click)="openChat()" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Chat with the agent</button></li>
+            <li><button (click)="openChat('Where is my order?')" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Track an order</button></li>
+            <li><button (click)="openChat('Request a refund')" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Request a refund</button></li>
+            <li><button (click)="openChat('Escalate to a human agent')" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Escalate to a human</button></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">Resources</h4>
+          <ul class="mt-4 space-y-2.5 text-sm text-slate-500 dark:text-slate-400">
+            <li><button (click)="openChat()" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Demo accounts</button></li>
+            <li><button (click)="openChat('How is my customer data kept secure?')" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Security</button></li>
+            <li><button (click)="openChat('What is your refund policy?')" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Refund policy</button></li>
+            <li><a href="#faq" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Help center</a></li>
+          </ul>
         </div>
       </div>
-      <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-        <a href="#features" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Features</a>
-        <a href="#how-it-works" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">How it works</a>
-        <button (click)="openChat()" class="hover:text-slate-800 dark:hover:text-slate-100 transition-colors">Chat</button>
-        <span class="text-xs">© 2026 Lumina</span>
+
+      <div class="mt-12 pt-6 border-t border-slate-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 dark:text-slate-500">
+        <span>© 2026 Lumina. All rights reserved.</span>
+        <span>Agentic customer support, powered by Gemini.</span>
       </div>
     </div>
   </footer>
+
+  <!-- Scroll to top -->
+  <button
+    *ngIf="showScrollTop()"
+    (click)="scrollToTop()"
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/15 hover:text-slate-800 dark:hover:text-white shadow-lg shadow-slate-900/10 transition-all animate-fade-in"
+    aria-label="Scroll to top"
+    title="Back to top"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" /></svg>
+  </button>
 
   <!-- Floating support chat (available on every page) -->
   <app-chat-widget />

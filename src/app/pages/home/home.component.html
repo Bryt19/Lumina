@@ -49,35 +49,38 @@
   </div>
 </section>
 
-<!-- Trust bar -->
+<!-- Trust bar: scrolling marquee on all screen sizes -->
 <section class="border-y border-slate-100 dark:border-white/10 bg-white/60 dark:bg-black/40 overflow-hidden">
-  <!-- Mobile: scrolling marquee -->
-  <div class="sm:hidden py-4">
-    <div class="marquee-track flex items-center gap-10 text-sm font-semibold text-slate-400 dark:text-slate-500 w-max">
-      <span>TRUSTED BY SUPPORT TEAMS AT</span>
-      <span class="text-slate-500 dark:text-slate-400">Northwind</span>
-      <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
-      <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
-      <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
-      <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
-      <!-- Duplicate for seamless loop -->
-      <span>TRUSTED BY SUPPORT TEAMS AT</span>
-      <span class="text-slate-500 dark:text-slate-400">Northwind</span>
-      <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
-      <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
-      <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
-      <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
+  <div class="marquee-track flex items-center gap-10 py-4 sm:py-6 text-sm font-semibold text-slate-400 dark:text-slate-500 w-max">
+    <!-- Rendered twice for a seamless loop -->
+    <ng-container *ngFor="let duplicate of [0, 1]">
+      <span class="shrink-0">TRUSTED BY SUPPORT TEAMS AT:</span>
+      <span *ngFor="let name of trustedBy" class="shrink-0 text-slate-500 dark:text-slate-400">{{ name }}</span>
+    </ng-container>
+  </div>
+</section>
+
+
+<!-- Stats -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-16 pb-4">
+  <dl class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 text-center">
+      <dd class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight" [appCountUp]="30" [prefix]="'Under '" suffix="s">Under 30s</dd>
+      <dt class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">Median response time</dt>
     </div>
-  </div>
-  <!-- Desktop: static row -->
-  <div class="hidden sm:flex max-w-6xl mx-auto px-6 py-6 flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-semibold text-slate-400 dark:text-slate-500">
-    <span>TRUSTED BY SUPPORT TEAMS AT</span>
-    <span class="text-slate-500 dark:text-slate-400">Northwind</span>
-    <span class="text-slate-500 dark:text-slate-400">Acme Retail</span>
-    <span class="text-slate-500 dark:text-slate-400">BlueSky Labs</span>
-    <span class="text-slate-500 dark:text-slate-400">Orbit Goods</span>
-    <span class="text-slate-500 dark:text-slate-400">Vertex Co.</span>
-  </div>
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 text-center">
+      <dd class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight" [appCountUp]="72" suffix="%">72%</dd>
+      <dt class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">Resolved by the agent</dt>
+    </div>
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 text-center">
+      <dd class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight" [appCountUp]="24" suffix="/7">24/7</dd>
+      <dt class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">Always-on coverage</dt>
+    </div>
+    <div class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 text-center">
+      <dd class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight" [appCountUp]="99.9" [decimals]="1" suffix="%">99.9%</dd>
+      <dt class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">Platform uptime</dt>
+    </div>
+  </dl>
 </section>
 
 
@@ -162,6 +165,73 @@
         <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm mb-4">3</div>
         <h3 class="font-bold font-display text-lg">Resolved, or escalated</h3>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Most issues are closed instantly. Anything complex becomes a tracked ticket for a human agent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24 scroll-mt-20">
+  <div class="text-center max-w-2xl mx-auto mb-14">
+    <h2 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight">Trusted by support teams everywhere</h2>
+    <p class="mt-4 text-slate-600 dark:text-slate-400">Real teams, real volume — the agent handles the routine so humans can focus on the hard stuff.</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <figure class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 flex flex-col justify-between">
+      <blockquote class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">“Our customers stopped waiting on hold. The agent answers order questions instantly, and escalations land in the right queue every single time.”</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-slate-700 text-white text-xs font-bold shrink-0">MC</div>
+        <div>
+          <div class="text-sm font-semibold">Maya Chen</div>
+          <div class="text-xs text-slate-400">Head of Support, Northwind</div>
+        </div>
+      </figcaption>
+    </figure>
+
+    <figure class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 flex flex-col justify-between">
+      <blockquote class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">“Refund requests that used to eat our whole morning now resolve themselves. The handoff to humans is seamless when it’s needed.”</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-slate-700 text-white text-xs font-bold shrink-0">DO</div>
+        <div>
+          <div class="text-sm font-semibold">Daniel Okafor</div>
+          <div class="text-xs text-slate-400">VP of Customer Experience, Acme Retail</div>
+        </div>
+      </figcaption>
+    </figure>
+
+    <figure class="p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 flex flex-col justify-between">
+      <blockquote class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">“Policy questions get answered in seconds — always grounded in the actual policy text, never made up on the fly.”</blockquote>
+      <figcaption class="mt-6 flex items-center gap-3">
+        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-slate-700 text-white text-xs font-bold shrink-0">SM</div>
+        <div>
+          <div class="text-sm font-semibold">Sofia Marino</div>
+          <div class="text-xs text-slate-400">Support Lead, Orbit Goods</div>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24 scroll-mt-20">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl sm:text-4xl font-extrabold font-display tracking-tight">Frequently asked questions</h2>
+      <p class="mt-4 text-slate-600 dark:text-slate-400">Everything you need to know before you get started. Still curious? Just ask the agent.</p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div *ngFor="let faq of faqs; let i = index" class="rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 overflow-hidden">
+        <button
+          (click)="toggleFaq(i)"
+          [attr.aria-expanded]="openFaq() === i"
+          class="w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-semibold font-display text-sm hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
+        >
+          {{ faq.q }}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 shrink-0 text-slate-400 transition-transform duration-200" [ngClass]="openFaq() === i ? 'rotate-180' : ''"><path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" /></svg>
+        </button>
+        <div *ngIf="openFaq() === i" class="px-5 pb-5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{{ faq.a }}</div>
       </div>
     </div>
   </div>
