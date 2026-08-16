@@ -7,6 +7,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent iOS Safari from auto-zooming the page when a form field is focused.
+   Safari zooms whenever the focused field's font-size is under 16px, so bump
+   form controls to 16px on touch devices (desktop keeps its 14px design). */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* Entrance animation (staggered hero content) */
 @keyframes fade-in-up {
   from {
