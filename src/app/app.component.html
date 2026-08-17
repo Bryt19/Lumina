@@ -80,7 +80,7 @@
             </div>
           </div>
           <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
-            A Gemini-powered support agent that answers order, refund, and policy questions instantly — and hands off to humans when it should.
+            An AI-powered support agent that answers order, refund, and policy questions instantly — and hands off to humans when it should.
           </p>
           <button (click)="openChat()" class="mt-5 px-4 py-2 rounded-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold shadow-md shadow-slate-900/25 hover:shadow-lg transition-all">Try the demo</button>
         </div>
@@ -120,7 +120,7 @@
 
       <div class="mt-12 pt-6 border-t border-slate-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 dark:text-slate-500">
         <span>© 2026 Lumina. All rights reserved.</span>
-        <span>Agentic customer support, powered by Gemini.</span>
+        <span>Agentic customer support, powered by leading AI models.</span>
       </div>
     </div>
   </footer>
@@ -136,6 +136,9 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" /></svg>
   </button>
 
-  <!-- Floating support chat (available on every page) -->
-  <app-chat-widget />
+  <!-- Floating support chat (available on every page). Lazy-loaded after the
+       page becomes idle so the initial bundle stays small. -->
+  @defer (on idle) {
+    <app-chat-widget />
+  }
 </div>

@@ -10,7 +10,7 @@ interface ChatMessage {
 }
 
 const GREETING =
-  'Hello! I am your support assistant. Ask about your orders, tickets, refunds, or policies.';
+  'Hello! I am Lumina, your AI support assistant. Ask about your orders, tickets, refunds, or policies.';
 
 const OPEN_CHAT_EVENT = 'acsap:open-chat';
 

@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { AgentOrchestrator } from './agent.js';
+import compression from 'compression';
+import { AgentOrchestrator, OpenAICompatAgent, FallbackAgent } from './agent.js';
 import {
   findCustomerByToken,
   findCustomerById,
@@ -17,10 +18,61 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+// Gzip JSON responses (auth, health, etc.). SSE must be excluded — compressing
+// a stream would buffer it and break the incremental chat deltas.
+app.use(
+  compression({
+    // This API returns small JSON bodies, so compress everything (threshold 0)
+    // rather than relying on the default 1 kB minimum. SSE stays excluded.
+    threshold: 0,
+    filter: (req, res) => {
+      const type = res.getHeader('Content-Type');
+      return !(typeof type === 'string' && type.startsWith('text/event-stream'));
+    },
+  })
+);
 app.use(express.json({ limit: '1mb' }));
 
-const apiKey = process.env.GEMINI_API_KEY;
-const agent = new AgentOrchestrator({ apiKey, model: process.env.GEMINI_MODEL || 'gemini-3.5-flash' });
+// Gemini is the primary provider; when it is out of quota, rate-limited, or
+// otherwise unavailable, the FallbackAgent hands the request to the next
+// configured provider in order: OpenRouter, then BazaarLink.
+// Configure whichever keys you have — with only one key set, that provider is
+// used directly (no fallback).
+const agentConfigs = [];
+if (process.env.GEMINI_API_KEY) {
+  agentConfigs.push({
+    name: 'gemini',
+    agent: new AgentOrchestrator({ apiKey: process.env.GEMINI_API_KEY, model: process.env.GEMINI_MODEL || 'gemini-3.5-flash' }),
+  });
+}
+if (process.env.OPENROUTER_API_KEY) {
+  agentConfigs.push({
+    name: 'openrouter',
+    agent: new OpenAICompatAgent({
+      apiKey: process.env.OPENROUTER_API_KEY,
+      model: process.env.OPENROUTER_MODEL || 'openai/gpt-4o',
+      baseUrl: 'https://openrouter.ai/api/v1',
+      label: 'OpenRouter',
+      envPrefix: 'OPENROUTER',
+    }),
+  });
+}
+if (process.env.BAZAARLINK_API_KEY) {
+  agentConfigs.push({
+    name: 'bazaarlink',
+    agent: new OpenAICompatAgent({
+      apiKey: process.env.BAZAARLINK_API_KEY,
+      model: process.env.BAZAARLINK_MODEL || 'openai/gpt-4o',
+      baseUrl: 'https://api.bazaarlink.ai/v1',
+      label: 'BazaarLink',
+      envPrefix: 'BAZAARLINK',
+    }),
+  });
+}
+const provider = agentConfigs.map((c) => c.name).join('+');
+const providerKey = agentConfigs.length > 0;
+const agents = agentConfigs.map((c) => c.agent);
+const agent = agents.length > 1 ? new FallbackAgent({ agents }) : agents[0];
 
 // ---- Auth helpers ---------------------------------------------------------
 
@@ -89,10 +141,11 @@ app.post('/api/chat', requireCustomer, async (req, res) => {
     convId = createConversation(req.customer.id);
   }
 
-  if (!apiKey) {
+  if (!providerKey) {
     return res.status(500).json({
       error: 'server_not_configured',
-      message: 'GEMINI_API_KEY is not set on the server. Add it to server/.env and restart.',
+      message:
+        'No AI provider key is set on the server. Set GEMINI_API_KEY and/or OPENROUTER_API_KEY in server/.env and restart.',
     });
   }
 
@@ -147,13 +200,13 @@ app.delete('/api/conversations/:id', requireCustomer, (req, res) => {
 });
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, model: agent.model, geminiConfigured: Boolean(apiKey) });
+  res.json({ ok: true, model: agent.model, provider, configured: Boolean(providerKey) });
 });
 
 app.listen(PORT, () => {
   console.log(`[server] API Gateway listening on http://localhost:${PORT}`);
-  console.log(`[server] Model: ${agent.model} | Gemini configured: ${Boolean(apiKey)}`);
-  if (!apiKey) {
-    console.warn('[server] WARNING: GEMINI_API_KEY missing — set it in server/.env');
+  console.log(`[server] Provider(s): ${provider} | Primary model: ${agent.model} | configured: ${Boolean(providerKey)}`);
+  if (!providerKey) {
+    console.warn('[server] WARNING: no AI provider key — set GEMINI_API_KEY and/or OPENROUTER_API_KEY in server/.env');
   }
 });
