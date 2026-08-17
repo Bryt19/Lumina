@@ -33,6 +33,14 @@ app.use(
 );
 app.use(express.json({ limit: '1mb' }));
 
+// API responses carry customer data and session tokens — never let a browser
+// or intermediary cache them. (The SSE chat handler overrides this with
+// 'no-cache' so the stream stays uncached while keeping the connection open.)
+app.use((_req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
+
 // Gemini is the primary provider; when it is out of quota, rate-limited, or
 // otherwise unavailable, the FallbackAgent hands the request to the next
 // configured provider in order: OpenRouter, then BazaarLink.

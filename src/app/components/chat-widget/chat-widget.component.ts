@@ -7,6 +7,8 @@ interface ChatMessage {
   sender: 'user' | 'agent';
   text: string;
   timestamp: Date;
+  /** User feedback on an agent reply — at most one of 'up' | 'down' per message. */
+  feedback?: 'up' | 'down';
 }
 
 const GREETING =
@@ -33,9 +35,11 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   isOpen = signal(false);
   copiedIndex = signal<number | null>(null);
   confirmClear = signal(false);
+  feedbackThanks = signal(false);
 
   private lastUserPrompt = '';
   private copyTimer: ReturnType<typeof setTimeout> | null = null;
+  private feedbackTimer: ReturnType<typeof setTimeout> | null = null;
   private savedScrollStyles: {
     htmlOverflow: string;
     bodyOverflow: string;
@@ -72,6 +76,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     window.removeEventListener(OPEN_CHAT_EVENT, this.onOpenChatRequest);
     if (this.copyTimer) clearTimeout(this.copyTimer);
+    if (this.feedbackTimer) clearTimeout(this.feedbackTimer);
     window.removeEventListener('wheel', this.onPageWheel);
     window.removeEventListener('touchmove', this.onPageTouchMove);
     window.removeEventListener('resize', this.onWindowResize);
@@ -120,6 +125,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     this.messages.set([]);
     this.toolActivity.set('');
     this.confirmClear.set(false);
+    this.feedbackThanks.set(false);
   }
 
   /** Permanently clears the current conversation and returns to the welcome state. */
@@ -135,6 +141,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     this.toolActivity.set('');
     this.copiedIndex.set(null);
     this.confirmClear.set(false);
+    this.feedbackThanks.set(false);
   }
 
   async sendMessage(text?: string) {
@@ -160,6 +167,26 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
       return copy;
     });
     await this.streamReply(this.lastUserPrompt, true);
+  }
+
+  /**
+   * Records 👍/👎 feedback for an agent reply. Selecting one clears the other
+   * (a single `feedback` field per message); clicking the same option again
+   * removes the feedback.
+   */
+  setFeedback(index: number, value: 'up' | 'down') {
+    const applied = this.messages()[index]?.feedback !== value;
+    this.messages.update((msgs) =>
+      msgs.map((msg, i) =>
+        i === index ? { ...msg, feedback: msg.feedback === value ? undefined : value } : msg
+      )
+    );
+    // Thank the user only when feedback was actually recorded (not removed).
+    if (applied) {
+      this.feedbackThanks.set(true);
+      if (this.feedbackTimer) clearTimeout(this.feedbackTimer);
+      this.feedbackTimer = setTimeout(() => this.feedbackThanks.set(false), 2500);
+    }
   }
 
   async copyMessage(index: number, text: string) {
