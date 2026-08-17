@@ -89,13 +89,29 @@
       </div>
 
       <!-- Chat Feed -->
-      <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 scroll-smooth bg-slate-50/50 dark:bg-black">
+      <div class="relative flex-1 overflow-y-auto p-4 flex flex-col gap-4 scroll-smooth bg-slate-50/50 dark:bg-black">
         <div *ngFor="let msg of messages(); let i = index" class="flex flex-col max-w-[88%] sm:max-w-[85%]" [ngClass]="msg.sender === 'user' ? 'self-end items-end' : 'self-start items-start'">
           <div class="px-3.5 py-2.5 shadow-sm" [ngClass]="msg.sender === 'user' ? 'bg-slate-700 text-white rounded-2xl rounded-tr-sm' : 'bg-white dark:bg-white/[0.06] border border-slate-100 dark:border-white/10 text-slate-700 dark:text-slate-200 rounded-2xl rounded-tl-sm'">
             <p class="text-sm leading-relaxed break-words whitespace-pre-wrap">{{ msg.text }}</p>
           </div>
-          <!-- Copy / regenerate actions (agent replies only, once streaming finishes) -->
+          <!-- Copy / feedback / regenerate actions (agent replies only, once streaming finishes) -->
           <div *ngIf="msg.sender === 'agent' && msg.text && !isLoading()" class="mt-1.5 flex items-center gap-0.5 px-1">
+            <button
+              (click)="setFeedback(i, 'up')"
+              class="inline-flex items-center justify-center w-6 h-6 rounded-md text-[0.65rem] transition-colors"
+              [ngClass]="msg.feedback === 'up' ? 'bg-emerald-500/10 ring-1 ring-emerald-500/30' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-slate-200'"
+              title="Good response"
+              [attr.aria-label]="msg.feedback === 'up' ? 'Remove thumbs-up feedback' : 'Rate this response as good'"
+              [attr.aria-pressed]="msg.feedback === 'up'"
+            >👍</button>
+            <button
+              (click)="setFeedback(i, 'down')"
+              class="inline-flex items-center justify-center w-6 h-6 rounded-md text-[0.65rem] transition-colors"
+              [ngClass]="msg.feedback === 'down' ? 'bg-rose-500/10 ring-1 ring-rose-500/30' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-slate-200'"
+              title="Bad response"
+              [attr.aria-label]="msg.feedback === 'down' ? 'Remove thumbs-down feedback' : 'Rate this response as bad'"
+              [attr.aria-pressed]="msg.feedback === 'down'"
+            >👎</button>
             <button
               (click)="copyMessage(i, msg.text)"
               class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[0.65rem] font-medium text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-slate-200 transition-colors"
@@ -133,6 +149,16 @@
             <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s;"></div>
             <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s;"></div>
           </div>
+        </div>
+
+        <!-- Feedback thanks toast -->
+        <div
+          *ngIf="feedbackThanks()"
+          role="status"
+          class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-700 text-white text-xs font-medium shadow-lg shadow-slate-900/25 animate-fade-in"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-emerald-400" aria-hidden="true"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+          Thanks for your feedback!
         </div>
       </div>
 
